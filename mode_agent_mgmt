@@ -1,0 +1,81 @@
+#!/bin/sh
+
+. /lib/lsb/init-functions
+
+NAME="mode_agent"
+DESC="Mode Agent Service"
+DAEMON="/sbin/${NAME}"
+SCRIPT_NAME="$(basename $0)"
+PID=$$
+
+# @brief Check status of daemon process
+# @return 0 if daemon is running
+daemon_is_running ()
+{
+  start-stop-daemon -q -K -t -x "${DAEMON}"
+}
+
+# @brief Start daemon process
+# @return 0 if daemon has been started successfully
+daemon_start ()
+{
+  if daemon_is_running; then
+    log_success_msg "${DESC} is already RUNNING"
+    return 0
+  fi
+
+  log_daemon_msg "Starting ${DESC}" "${NAME}"
+  start-stop-daemon -q -S -b -x "${DAEMON}" -- ${DAEMON_ARGS}
+  log_end_msg "$?" || return "$?"
+
+  sleep 1; # wait initialize
+  return 0
+}
+
+# @brief Stop daemon process
+# @return 0 if daemon has been stopped successfully
+daemon_stop ()
+{
+  log_daemon_msg "Stopping ${DESC}" "${NAME}"
+  echo
+  start-stop-daemon -K -x "${DAEMON}"
+
+  sleep 1; # waiting for completion
+  return 0
+}
+
+# @brief Show daemon mode and process status
+daemon_show_status ()
+{
+  if daemon_is_running; then
+    log_action_msg "${DESC} is running"
+  else
+    log_action_msg "${DESC} is stopped"
+  fi
+}
+
+case "$1" in
+  ( start )
+    daemon_start
+    ;;
+  ( stop )
+    daemon_stop
+    ;;
+  ( status )
+    daemon_show_status
+    ;;
+  ( restart )
+    if ! daemon_is_running; then
+      daemon_start
+    else
+      daemon_stop \
+      && daemon_start
+    fi
+    ;;
+  ( * )
+    log_action_msg "Usage: ${NAME} {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit "$?"
