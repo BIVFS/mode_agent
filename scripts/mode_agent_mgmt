@@ -72,8 +72,14 @@ case "$1" in
       && daemon_start
     fi
     ;;
+  ( update )
+    SRVC_PID=$(pidof ${NAME})
+    if [ -n "$P{SRVC_PID}" ] ; then
+      kill -s USR2 ${SRVC_PID}
+    fi
+    ;;
   ( * )
-    log_action_msg "Usage: ${NAME} {start|stop|restart|status}"
+    log_action_msg "Usage: ${NAME} {start|stop|restart|update|status}"
     exit 1
     ;;
 esac
