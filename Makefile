@@ -1,5 +1,5 @@
 SERVICE=mode_agent
-SERVICE_CLI=mode_agent_cli
+SERVICE_CLI=mode_ctrl_cli
 SRVC_MGMT_SCRIPT=mode_agent_mgmt
 SRVC_CFG=mode_ctrl_config
 

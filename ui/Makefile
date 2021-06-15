@@ -1,4 +1,4 @@
-TARGET=mode_agent_cli
+TARGET=mode_ctrl_cli
 
 CC=g++
 
