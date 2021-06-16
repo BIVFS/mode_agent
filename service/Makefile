@@ -2,7 +2,7 @@ TARGET=mode_agent
 
 CC=g++
 
-CFLAGS=-c -std=c++14 -Wall -Wextra -Werror -pedantic -I.
+CFLAGS=-c -std=c++14 -Wall -Wextra -pedantic -I.
 
 LFLAGS =
 LIBDEP = -pthread
