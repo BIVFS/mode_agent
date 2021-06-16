@@ -42,12 +42,12 @@ public:
      /// @brief Ожидание завершения работы
      void WaitThreads();
 
-     /// @brief Периодическая проверка режима доступа
-     void CheckApps();
-
      /// @brief Перечитать конфиг и обновить список
      void Update();
 private:
+     /// @brief Периодическая проверка режима доступа
+     void CheckApps();
+
      /// @brief Прочитать конфиг
      /// @param[in] path путь к конфигу
      /// @param[out] apps список приложений из конфига
